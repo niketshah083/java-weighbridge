@@ -1,0 +1,1 @@
+import"./chunk-GAL4ENT6.js";var t=[{path:"",loadComponent:()=>import("./chunk-K2IMVSAA.js").then(o=>o.WeighbridgeListComponent)},{path:"config/:id",loadComponent:()=>import("./chunk-AAMMNBXJ.js").then(o=>o.WeighbridgeConfigComponent)}];export{t as WEIGHBRIDGE_ROUTES};

@@ -1,0 +1,177 @@
+================================================================================
+HOW TO CREATE WINDOWS EXE FOR JAVA DEVICE BRIDGE APP
+================================================================================
+
+CURRENT STATUS:
+✅ JAR file is ready: target/device-bridge-1.0.0.jar (725 MB)
+✅ Works on Windows with Java 17+
+✅ Batch file created: run-windows.bat
+
+================================================================================
+OPTION 1: USE THE JAR FILE (EASIEST - READY NOW!)
+================================================================================
+
+What you have now:
+- target/device-bridge-1.0.0.jar (725 MB)
+- run-windows.bat
+
+To use on Windows:
+1. Install Java 17+ from https://adoptium.net/
+2. Copy both files to Windows
+3. Double-click run-windows.bat
+4. Done!
+
+Pros:
+✅ Ready immediately
+✅ No additional build needed
+✅ Works on any OS with Java
+✅ Easy to update (just replace JAR)
+
+Cons:
+❌ Requires Java to be installed
+❌ Not a "native" Windows app
+❌ Larger file size (725 MB)
+
+================================================================================
+OPTION 2: CREATE NATIVE WINDOWS EXE (REQUIRES WINDOWS MACHINE)
+================================================================================
+
+You CANNOT create Windows EXE from Linux. You need a Windows machine.
+
+Steps on Windows:
+
+1. Install JDK 17+ from https://adoptium.net/
+2. Install Maven from https://maven.apache.org/download.cgi
+3. Copy the entire java-bridge-app folder to Windows
+4. Open Command Prompt in that folder
+5. Run:
+   
+   mvn clean package
+   
+6. Then run:
+   
+   jpackage ^
+     --input target ^
+     --name "ScrapMS-DeviceBridge" ^
+     --main-jar device-bridge-1.0.0.jar ^
+     --main-class com.scrapms.devicebridge.DeviceBridgeApplication ^
+     --type exe ^
+     --dest target/dist ^
+     --app-version 1.0.0 ^
+     --vendor "Scrap MS" ^
+     --description "Device Bridge for Weighbridge and Camera Integration" ^
+     --win-dir-chooser ^
+     --win-menu ^
+     --win-shortcut ^
+     --java-options "-Dfile.encoding=UTF-8"
+
+7. Find the EXE in: target/dist/ScrapMS-DeviceBridge-1.0.0.exe
+
+Pros:
+✅ Native Windows installer
+✅ No Java installation needed (bundles JRE)
+✅ Professional look and feel
+✅ Desktop shortcuts and Start Menu entry
+
+Cons:
+❌ Must build on Windows
+❌ Larger file size (~800 MB with bundled JRE)
+❌ More complex build process
+
+================================================================================
+OPTION 3: USE GITHUB ACTIONS (AUTOMATED CI/CD)
+================================================================================
+
+If you have a GitHub repository, you can automate Windows EXE builds.
+
+1. Create .github/workflows/build-windows.yml
+2. Push code to GitHub
+3. GitHub will automatically build Windows EXE
+4. Download from GitHub Actions artifacts
+
+See BUILD_EXE.md for complete GitHub Actions configuration.
+
+Pros:
+✅ Automated builds
+✅ No Windows machine needed
+✅ Build for multiple platforms
+✅ Version control integration
+
+Cons:
+❌ Requires GitHub account
+❌ Requires repository setup
+❌ Takes time to set up
+
+================================================================================
+OPTION 4: USE LAUNCH4J (SIMPLE EXE WRAPPER)
+================================================================================
+
+Launch4j creates a simple EXE wrapper around the JAR.
+
+1. Download Launch4j from http://launch4j.sourceforge.net/
+2. Install on Windows
+3. Use the GUI to configure:
+   - Output file: ScrapMS-DeviceBridge.exe
+   - Jar: device-bridge-1.0.0.jar
+   - Min JRE version: 17
+4. Click "Build wrapper"
+
+Pros:
+✅ Simple and fast
+✅ Small EXE file (~1 MB wrapper)
+✅ Easy to configure
+
+Cons:
+❌ Still requires Java on target machine
+❌ Not a true installer
+❌ Less professional than jpackage
+
+================================================================================
+RECOMMENDATION
+================================================================================
+
+For immediate use:
+→ Use OPTION 1 (JAR + Batch file) - It's ready now!
+
+For production deployment:
+→ Use OPTION 2 (jpackage on Windows) - Professional installer
+
+For continuous deployment:
+→ Use OPTION 3 (GitHub Actions) - Automated builds
+
+================================================================================
+WHAT YOU NEED TO DO NOW
+================================================================================
+
+1. Copy these files to Windows:
+   - target/device-bridge-1.0.0.jar
+   - run-windows.bat
+   - WINDOWS_DEPLOYMENT.md
+
+2. On Windows:
+   - Install Java 17+ from https://adoptium.net/
+   - Double-click run-windows.bat
+   - Test the application
+
+3. If you want native EXE:
+   - Follow OPTION 2 steps on a Windows machine
+   - Or set up GitHub Actions (OPTION 3)
+
+================================================================================
+FILES LOCATION
+================================================================================
+
+JAR file: java-bridge-app/target/device-bridge-1.0.0.jar (725 MB)
+Batch file: java-bridge-app/run-windows.bat
+Documentation: java-bridge-app/WINDOWS_DEPLOYMENT.md
+
+================================================================================
+SUPPORT
+================================================================================
+
+For detailed instructions, see:
+- WINDOWS_DEPLOYMENT.md - How to deploy on Windows
+- BUILD_EXE.md - Complete guide for creating EXE
+- READY_FOR_WINDOWS.md - Summary of what's ready
+
+================================================================================

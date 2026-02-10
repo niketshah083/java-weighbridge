@@ -1,0 +1,1 @@
+import"./chunk-GAL4ENT6.js";var t=[{path:"",loadComponent:()=>import("./chunk-ZV3WSEYU.js").then(o=>o.PoListComponent)},{path:"new",loadComponent:()=>import("./chunk-KIDHCCLH.js").then(o=>o.PoFormComponent)},{path:":id/edit",loadComponent:()=>import("./chunk-KIDHCCLH.js").then(o=>o.PoFormComponent)}];export{t as PURCHASE_ORDERS_ROUTES};

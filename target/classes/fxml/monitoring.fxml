@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.scrapms.devicebridge.controller.MonitoringController"
+           styleClass="monitoring-container">
+    
+    <!-- Header -->
+    <top>
+        <HBox styleClass="monitoring-header" alignment="CENTER_LEFT" spacing="15">
+            <padding>
+                <Insets top="15" right="20" bottom="15" left="20"/>
+            </padding>
+            
+            <Text text="📡" style="-fx-font-size: 24px;"/>
+            <Text text="Device Bridge - Live Monitoring" 
+                  style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-fill: white;"/>
+            
+            <Region HBox.hgrow="ALWAYS"/>
+            
+            <!-- Debug Mode Toggle -->
+            <HBox alignment="CENTER" spacing="8" 
+                  style="-fx-background-color: rgba(0,0,0,0.2); -fx-background-radius: 20px; -fx-padding: 6px 12px;">
+                <ToggleButton fx:id="debugModeToggle" 
+                            text="Debug Mode"
+                            onAction="#handleDebugModeToggle"
+                            styleClass="toggle-switch"/>
+                <Label fx:id="debugModeLabel" 
+                      text="Debug Mode OFF"
+                      style="-fx-text-fill: rgba(255,255,255,0.8); -fx-font-size: 12px; -fx-font-weight: 500;"/>
+            </HBox>
+            
+            <!-- Connection Status -->
+            <HBox alignment="CENTER" spacing="6">
+                <Label text="●" style="-fx-text-fill: #4ade80; -fx-font-size: 10px;"/>
+                <Label fx:id="connectionStatus" 
+                      text="Connected" 
+                      style="-fx-text-fill: white; -fx-font-size: 13px;"/>
+            </HBox>
+            
+            <!-- Back Button -->
+            <Button text="← Back to Selection" 
+                   styleClass="btn-secondary"
+                   onAction="#handleBack"/>
+        </HBox>
+    </top>
+    
+    <!-- Content -->
+    <center>
+        <GridPane styleClass="monitoring-grid" hgap="15" vgap="15">
+            <padding>
+                <Insets top="15" right="15" bottom="15" left="15"/>
+            </padding>
+            
+            <columnConstraints>
+                <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+                <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+            </columnConstraints>
+            
+            <rowConstraints>
+                <RowConstraints vgrow="ALWAYS"/>
+            </rowConstraints>
+            
+            <!-- Weighbridges Panel -->
+            <VBox styleClass="device-panel" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <!-- Panel Header -->
+                <HBox styleClass="panel-header" alignment="CENTER_LEFT" spacing="10">
+                    <padding>
+                        <Insets top="12" right="15" bottom="12" left="15"/>
+                    </padding>
+                    <Text text="⚖️ Weighbridges" styleClass="panel-title"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="wbCount" 
+                          text="0 active" 
+                          style="-fx-text-fill: #888; -fx-font-size: 13px;"/>
+                </HBox>
+                
+                <!-- Panel Content -->
+                <ScrollPane styleClass="panel-content" fitToWidth="true" VBox.vgrow="ALWAYS">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                    <VBox fx:id="weighbridgePanel" spacing="0"/>
+                </ScrollPane>
+            </VBox>
+            
+            <!-- Cameras Panel -->
+            <VBox styleClass="device-panel" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                <!-- Panel Header -->
+                <HBox styleClass="panel-header" alignment="CENTER_LEFT" spacing="10">
+                    <padding>
+                        <Insets top="12" right="15" bottom="12" left="15"/>
+                    </padding>
+                    <Text text="📷 Cameras" styleClass="panel-title"/>
+                    <Region HBox.hgrow="ALWAYS"/>
+                    <Label fx:id="camCount" 
+                          text="0 active" 
+                          style="-fx-text-fill: #888; -fx-font-size: 13px;"/>
+                </HBox>
+                
+                <!-- Panel Content -->
+                <ScrollPane styleClass="panel-content" fitToWidth="true" VBox.vgrow="ALWAYS">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                    <VBox fx:id="cameraPanel" spacing="0"/>
+                </ScrollPane>
+            </VBox>
+        </GridPane>
+    </center>
+    
+</BorderPane>

@@ -1,0 +1,1 @@
+import"./chunk-GAL4ENT6.js";var t=[{path:"",loadComponent:()=>import("./chunk-UVR3OHIU.js").then(o=>o.QcListComponent)},{path:":id",loadComponent:()=>import("./chunk-WNKDXYCS.js").then(o=>o.QcFormComponent)}];export{t as QC_ROUTES};

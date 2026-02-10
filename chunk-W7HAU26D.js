@@ -1,0 +1,1 @@
+import"./chunk-GAL4ENT6.js";var t=[{path:"",loadComponent:()=>import("./chunk-PJ7SJDTI.js").then(o=>o.CameraListComponent)},{path:"config/:id",loadComponent:()=>import("./chunk-366XWC3Q.js").then(o=>o.CameraConfigComponent)},{path:"preview/:id",loadComponent:()=>import("./chunk-AUF225SR.js").then(o=>o.CameraPreviewComponent)}];export{t as CAMERA_ROUTES};

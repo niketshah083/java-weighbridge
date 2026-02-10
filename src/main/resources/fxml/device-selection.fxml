@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="com.scrapms.devicebridge.controller.DeviceSelectionController"
+           styleClass="device-selection-container">
+    
+    <!-- Header -->
+    <top>
+        <VBox styleClass="header">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            <HBox alignment="CENTER_LEFT" spacing="15">
+                <Text text="📡" styleClass="header-icon"/>
+                <VBox>
+                    <Text text="Device Selection" styleClass="header-title"/>
+                    <Text text="Select weighbridges and cameras to monitor" styleClass="header-subtitle"/>
+                </VBox>
+            </HBox>
+        </VBox>
+    </top>
+    
+    <!-- Content -->
+    <center>
+        <GridPane styleClass="device-grid" hgap="20" vgap="20">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+            
+            <columnConstraints>
+                <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+                <ColumnConstraints percentWidth="50" hgrow="ALWAYS"/>
+            </columnConstraints>
+            
+            <rowConstraints>
+                <RowConstraints vgrow="ALWAYS"/>
+            </rowConstraints>
+            
+            <!-- Weighbridges Panel -->
+            <VBox styleClass="device-panel" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                <VBox styleClass="panel-header">
+                    <padding>
+                        <Insets top="15" right="15" bottom="15" left="15"/>
+                    </padding>
+                    <Text text="⚖️ Weighbridges" styleClass="panel-title"/>
+                </VBox>
+                
+                <ScrollPane styleClass="panel-content" fitToWidth="true" VBox.vgrow="ALWAYS">
+                    <padding>
+                        <Insets top="15" right="15" bottom="15" left="15"/>
+                    </padding>
+                    <VBox fx:id="weighbridgeList" spacing="5"/>
+                </ScrollPane>
+            </VBox>
+            
+            <!-- Cameras Panel -->
+            <VBox styleClass="device-panel" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                <VBox styleClass="panel-header">
+                    <padding>
+                        <Insets top="15" right="15" bottom="15" left="15"/>
+                    </padding>
+                    <Text text="📷 Cameras" styleClass="panel-title"/>
+                </VBox>
+                
+                <ScrollPane styleClass="panel-content" fitToWidth="true" VBox.vgrow="ALWAYS">
+                    <padding>
+                        <Insets top="15" right="15" bottom="15" left="15"/>
+                    </padding>
+                    <VBox fx:id="cameraList" spacing="5"/>
+                </ScrollPane>
+            </VBox>
+        </GridPane>
+    </center>
+    
+    <!-- Footer -->
+    <bottom>
+        <VBox styleClass="footer">
+            <padding>
+                <Insets top="15" right="20" bottom="15" left="20"/>
+            </padding>
+            
+            <HBox alignment="CENTER" spacing="10">
+                <Label fx:id="statusLabel" text="Loading devices..." styleClass="status-label"/>
+                <ProgressIndicator fx:id="progressIndicator" prefWidth="20" prefHeight="20"/>
+            </HBox>
+            
+            <HBox alignment="CENTER" spacing="15">
+                <padding>
+                    <Insets top="10"/>
+                </padding>
+                <Button fx:id="backButton" 
+                       text="← Back" 
+                       styleClass="btn-secondary"
+                       onAction="#handleBack"/>
+                <Button fx:id="continueButton" 
+                       text="Continue →" 
+                       styleClass="btn-primary"
+                       onAction="#handleContinue"
+                       defaultButton="true"/>
+            </HBox>
+        </VBox>
+    </bottom>
+    
+</BorderPane>

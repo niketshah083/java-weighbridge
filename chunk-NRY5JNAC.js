@@ -1,0 +1,1 @@
+import"./chunk-GAL4ENT6.js";var t=[{path:"",loadComponent:()=>import("./chunk-Z2DRBGRZ.js").then(o=>o.GatePassListComponent)},{path:"verify",loadComponent:()=>import("./chunk-J65FCRKY.js").then(o=>o.GatePassVerifyComponent)}];export{t as GATE_PASS_ROUTES};

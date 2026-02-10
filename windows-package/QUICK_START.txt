@@ -1,0 +1,28 @@
+========================================
+Scrap MS Device Bridge - Quick Start
+========================================
+
+STEP 1: Install Java
+--------------------
+Download Java 17 from: https://adoptium.net/
+(Choose Windows x64 .msi installer)
+
+STEP 2: Run the Application
+---------------------------
+Double-click: run-windows.bat
+
+STEP 3: Login
+-------------
+Server URL: https://scrapapi.accomation.io
+Email: tenant4@yopmail.com
+Password: (your password)
+
+That's it!
+
+========================================
+
+Need Help?
+Read README.txt for detailed instructions.
+
+File Size: 725 MB (includes all dependencies)
+No installation needed - just run!
