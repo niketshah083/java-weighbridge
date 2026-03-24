@@ -39,13 +39,28 @@ public class LoginController {
         
         if (configService.getRememberMe()) {
             emailField.setText(configService.getSavedEmail());
+            passwordField.setText(configService.getSavedPassword());
         }
         
         // Hide progress indicator initially
         progressIndicator.setVisible(false);
         errorLabel.setVisible(false);
         
-        // Check if already authenticated - delay until scene is ready
+        // Auto-login if credentials are saved and devices are selected
+        if (configService.getAutoConnect() && configService.getRememberMe()) {
+            String savedEmail = configService.getSavedEmail();
+            String savedPassword = configService.getSavedPassword();
+            if (savedEmail != null && !savedEmail.isEmpty() && !savedPassword.isEmpty()) {
+                Platform.runLater(() -> {
+                    if (loginButton.getScene() != null) {
+                        autoLogin(savedEmail, savedPassword);
+                    }
+                });
+                return;
+            }
+        }
+        
+        // Check if already authenticated with valid token
         if (authService.isAuthenticated()) {
             Platform.runLater(() -> {
                 if (loginButton.getScene() != null) {
@@ -80,12 +95,14 @@ public class LoginController {
         // Save server URL
         configService.setServerUrl(serverUrl);
         
-        // Save remember me preference
+        // Save remember me preference and credentials
         configService.setRememberMe(rememberMeCheckbox.isSelected());
         if (rememberMeCheckbox.isSelected()) {
             configService.setSavedEmail(email);
+            configService.setSavedPassword(password);
         } else {
             configService.setSavedEmail("");
+            configService.setSavedPassword("");
         }
         
         // Show loading
@@ -108,6 +125,46 @@ public class LoginController {
             Platform.runLater(() -> {
                 setLoading(false);
                 showError("Login failed: " + throwable.getMessage());
+            });
+            return null;
+        });
+    }
+    
+    /**
+     * Auto-login with saved credentials, then skip to monitoring if devices are selected
+     */
+    private void autoLogin(String email, String password) {
+        setLoading(true);
+        errorLabel.setVisible(false);
+        
+        logger.info("Auto-login with saved credentials...");
+        
+        authService.login(email, password).thenAccept(result -> {
+            Platform.runLater(() -> {
+                setLoading(false);
+                
+                if (result.isSuccess()) {
+                    logger.info("Auto-login successful");
+                    // Check if devices are already selected — skip to monitoring
+                    boolean hasDevices = !configService.getSelectedWeighbridges().isEmpty() 
+                                      || !configService.getSelectedCameras().isEmpty();
+                    if (hasDevices) {
+                        navigateToMonitoring();
+                    } else {
+                        navigateToDeviceSelection();
+                    }
+                } else {
+                    logger.warn("Auto-login failed: {}", result.getMessage());
+                    // Clear auto-connect flag so user can login manually
+                    configService.setAutoConnect(false);
+                    showError("Session expired. Please login again.");
+                }
+            });
+        }).exceptionally(throwable -> {
+            Platform.runLater(() -> {
+                setLoading(false);
+                configService.setAutoConnect(false);
+                showError("Auto-login failed: " + throwable.getMessage());
             });
             return null;
         });
@@ -140,6 +197,23 @@ public class LoginController {
         } catch (IOException e) {
             logger.error("Failed to load device selection screen", e);
             showError("Failed to load next screen");
+        }
+    }
+    
+    private void navigateToMonitoring() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/monitoring.fxml"));
+            Scene scene = new Scene(loader.load());
+            scene.getStylesheets().add(getClass().getResource("/css/styles.css").toExternalForm());
+            
+            Stage stage = (Stage) loginButton.getScene().getWindow();
+            stage.setScene(scene);
+            stage.setTitle("Monitoring - Scrap MS Device Bridge");
+            stage.setMaximized(true);
+            
+        } catch (IOException e) {
+            logger.error("Failed to load monitoring screen", e);
+            showError("Failed to load monitoring screen");
         }
     }
 }

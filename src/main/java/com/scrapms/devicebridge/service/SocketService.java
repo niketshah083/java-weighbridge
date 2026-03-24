@@ -54,8 +54,10 @@ public class SocketService {
                     .setAuth(Map.of("token", token))
                     .setTransports(new String[]{"websocket", "polling"})
                     .setReconnection(true)
-                    .setReconnectionAttempts(5)
-                    .setReconnectionDelay(1000)
+                    .setReconnectionAttempts(Integer.MAX_VALUE)
+                    .setReconnectionDelay(2000)
+                    .setReconnectionDelayMax(30000)
+                    .setRandomizationFactor(0.5)
                     .build();
             
             socket = IO.socket(URI.create(serverUrl + "/device-bridge"), options);
@@ -77,6 +79,14 @@ public class SocketService {
             socket = null;
             logger.info("Disconnected from WebSocket");
         }
+    }
+    
+    /**
+     * Reconnect with fresh token (e.g. after re-login)
+     */
+    public void reconnect() {
+        disconnect();
+        connect();
     }
     
     /**
@@ -110,7 +120,7 @@ public class SocketService {
         });
         
         socket.on(Socket.EVENT_CONNECT_ERROR, args -> {
-            logger.error("Socket connection error: {}", args.length > 0 ? args[0] : "unknown");
+            logger.warn("Socket connection error (will retry): {}", args.length > 0 ? args[0] : "unknown");
         });
         
         socket.on("config:weighbridge-updated", args -> {

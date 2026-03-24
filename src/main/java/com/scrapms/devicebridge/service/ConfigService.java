@@ -145,6 +145,35 @@ public class ConfigService {
         saveConfig();
     }
     
+    // Saved Password (Base64 encoded)
+    public String getSavedPassword() {
+        if (config.savedPassword == null || config.savedPassword.isEmpty()) return "";
+        try {
+            return new String(java.util.Base64.getDecoder().decode(config.savedPassword));
+        } catch (Exception e) {
+            return "";
+        }
+    }
+    
+    public void setSavedPassword(String password) {
+        if (password == null || password.isEmpty()) {
+            config.savedPassword = "";
+        } else {
+            config.savedPassword = java.util.Base64.getEncoder().encodeToString(password.getBytes());
+        }
+        saveConfig();
+    }
+    
+    // Auto Connect (skip login + device selection)
+    public boolean getAutoConnect() {
+        return config.autoConnect;
+    }
+    
+    public void setAutoConnect(boolean autoConnect) {
+        config.autoConnect = autoConnect;
+        saveConfig();
+    }
+    
     // Token
     public String getToken() {
         return config.token;
@@ -208,8 +237,10 @@ public class ConfigService {
     public void clearAuth() {
         config.token = null;
         config.user = null;
+        config.autoConnect = false;
         if (!config.rememberMe) {
             config.savedEmail = null;
+            config.savedPassword = "";
         }
         saveConfig();
     }
@@ -221,12 +252,14 @@ public class ConfigService {
         private String serverUrl = "https://scrapapi.accomation.io";
         private boolean rememberMe = false;
         private String savedEmail = "";
+        private String savedPassword = "";
         private String token = null;
         private UserInfo user = null;
         private List<Integer> selectedWeighbridges = new ArrayList<>();
         private List<Integer> selectedCameras = new ArrayList<>();
         private boolean debugMode = false;
         private WeightRange debugWeightRange = new WeightRange(100, 10000);
+        private boolean autoConnect = false;
     }
     
     /**

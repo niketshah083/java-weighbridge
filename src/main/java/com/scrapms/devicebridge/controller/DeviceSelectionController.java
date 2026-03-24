@@ -164,6 +164,7 @@ public class DeviceSelectionController {
         // Save selection
         configService.setSelectedWeighbridges(selectedWeighbridges);
         configService.setSelectedCameras(selectedCameras);
+        configService.setAutoConnect(true);
         
         logger.info("Selected {} weighbridges and {} cameras", 
                    selectedWeighbridges.size(), selectedCameras.size());
